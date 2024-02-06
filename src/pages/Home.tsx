@@ -1,17 +1,21 @@
 import { FormComponent } from "@/components/form/FormComponent";
+import { useUserContext } from "@/context/UserContext";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 export const Home = () => {
  const location = useLocation();
  const [isLoginPage, setIsLoginPage] = useState(false);
+ const { state } = useUserContext();
 
  useEffect(() => {
+  console.log(state);
+
   if (location.pathname === "/login") {
    setIsLoginPage(true);
   } else {
    setIsLoginPage(false);
   }
- }, [location]);
+ }, [location, state]);
 
  return (
   <main className="main-layout">

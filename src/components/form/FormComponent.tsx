@@ -7,10 +7,18 @@ import { Button } from "@/components/ui/button";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { formFields } from "@/classes/formFields";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "@/context/UserContext";
+import { store } from "@/classes/useLocalStorage";
+
 interface FormComponent {
  isLogin: boolean;
 }
+
 export const FormComponent: React.FC<FormComponent> = ({ isLogin }) => {
+ type CreateUserFormData = z.infer<typeof formSchema>;
+
+ const { setFormData } = useUserContext();
+
  const navigate = useNavigate();
 
  const formSchema = z.object({
@@ -32,7 +40,7 @@ export const FormComponent: React.FC<FormComponent> = ({ isLogin }) => {
   tel: z.string().min(1, "* Campo obrigatório").min(10, "* Digite um telefone válido"),
  });
 
- const form = useForm<z.infer<typeof formSchema>>({
+ const form = useForm<CreateUserFormData>({
   resolver: zodResolver(formSchema),
   defaultValues: {
    username: "",
@@ -50,8 +58,10 @@ export const FormComponent: React.FC<FormComponent> = ({ isLogin }) => {
   return value.replace(/\D/g, "").replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
  }
 
- function onSubmit(values: z.infer<typeof formSchema>) {
-  console.log(values);
+ function onSubmit(values: CreateUserFormData) {
+  setFormData(values);
+  store.setItem("user", values);
+  navigate("/profile");
  }
 
  return (
@@ -84,7 +94,7 @@ export const FormComponent: React.FC<FormComponent> = ({ isLogin }) => {
           <Input value={value} onBlur={onBlur} onChange={(e) => onChange(e.target.value)} />
          )}
         </FormControl>
-        {fieldState?.error && <FormMessage className="text-xs">{field.validation?.errorMessage}</FormMessage>}
+        {fieldState?.error && <FormMessage className="text-xs">{fieldState?.error.message}</FormMessage>}
        </FormItem>
       )}
      />
@@ -96,9 +106,7 @@ export const FormComponent: React.FC<FormComponent> = ({ isLogin }) => {
      </Button>
      <Button variant="ghost" type="button" onClick={() => (isLogin ? navigate("/") : navigate("/login"))}>
       {isLogin ? "Cadastrar" : "Login"}
-      <span className="ml-2 mt-[2px]">
-       <FaLongArrowAltRight />
-      </span>
+      <FaLongArrowAltRight className="ml-2 mt-[2px]" />
      </Button>
     </div>
    </form>
