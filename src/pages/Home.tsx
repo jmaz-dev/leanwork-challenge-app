@@ -1,5 +1,18 @@
 import { FormComponent } from "@/components/form/FormComponent";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 export const Home = () => {
+ const location = useLocation();
+ const [isLoginPage, setIsLoginPage] = useState(false);
+
+ useEffect(() => {
+  if (location.pathname === "/login") {
+   setIsLoginPage(true);
+  } else {
+   setIsLoginPage(false);
+  }
+ }, [location]);
+
  return (
   <main className="main-layout">
    <section className="flex-1 items-center md:items-start z-10 flex justify-center">
@@ -8,8 +21,8 @@ export const Home = () => {
      <span className="hero__overlay"></span>
     </aside>
     <div className="absolute md:relative px-8 pb-10 md:py-0 bg-white md:bg-transparent">
-     <h2 className="text-2xl font-light -tracking-tighter my-10">Lean Cadastro</h2>
-     <FormComponent></FormComponent>
+     <h2 className="text-2xl font-light -tracking-tighter my-10">Lean {!isLoginPage ? "Cadastro" : "Login"}</h2>
+     <FormComponent isLogin={isLoginPage} />
     </div>
    </section>
   </main>
