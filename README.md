@@ -2,17 +2,17 @@
 
 ### Olá recrutador!! Segue abaixo as instruções para abrir o app.
 
-1. Copie o comando para clonar o repositório:
+1. Copie o comando e cole no seu terminal de comando para clonar o repositório:
 
 ```
 git clone https://github.com/jmaz-dev/leanwork-challenge-app.git
 ```
 
-2. Após clonar o respositório na pasta desejada, abra o terminal e instale os modulos com:
+2. Após clonar o respositório na pasta desejada, ainda no terminal, instale os modulos com:
 
 `npm install`
 
-3. Finalizada a instalação, inicie a aplicação com:
+3. Finalizada a instalação, digite o seguinte comando para iniciar a aplicação:
 
 `npm run dev`
 
