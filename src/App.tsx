@@ -1,17 +1,11 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-
-import "./App.css";
+import { Route, Routes } from "react-router";
+import { Home } from "./pages/Home";
 
 function App() {
- const [count, setCount] = useState(0);
-
  return (
-  <>
-   <Button variant="ghost" onClick={() => setCount((count) => count + 1)}>
-    count is {count}
-   </Button>
-  </>
+  <Routes>
+   <Route path="/" element={<Home />} />
+  </Routes>
  );
 }
 
